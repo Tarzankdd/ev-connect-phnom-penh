@@ -421,6 +421,26 @@ function HomeScreen({ station, onNavigate, onStation }) {
           View Station Details
         </button>
       </section>
+
+      <section className="mt-5 rounded-[28px] bg-white p-5 shadow-sm">
+        <div className="flex items-start gap-3">
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-mint text-leaf">
+            <MessageSquareWarning size={24} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-black">Community feedback</p>
+            <p className="mt-1 text-xs leading-5 text-slate-500">
+              Report a broken charger, rate a station, or help other riders avoid delays.
+            </p>
+            <button
+              onClick={() => onNavigate('report')}
+              className="mt-3 w-full rounded-2xl bg-leaf py-3 text-xs font-extrabold text-white transition active:scale-[0.98]"
+            >
+              Send report
+            </button>
+          </div>
+        </div>
+      </section>
     </ScreenPad>
   );
 }
@@ -1105,7 +1125,7 @@ function BottomNav({ active, onNavigate }) {
     { screen: 'map', icon: MapPin, label: 'Map' },
     { screen: 'progress', icon: Timer, label: 'Charge' },
     { screen: 'rewards', icon: Gift, label: 'Rewards' },
-    { screen: 'report', icon: MessageSquareWarning, label: 'Report' },
+    { screen: 'service', icon: Wrench, label: 'Service' },
   ];
 
   return (
