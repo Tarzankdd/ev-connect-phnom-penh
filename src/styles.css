@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #17211d;
+  background: #e7eee9;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.phone-scroll::-webkit-scrollbar {
+  width: 0;
+}
+
+.map-grid {
+  background-image:
+    linear-gradient(90deg, rgba(23, 33, 29, 0.06) 1px, transparent 1px),
+    linear-gradient(rgba(23, 33, 29, 0.06) 1px, transparent 1px),
+    radial-gradient(circle at 22% 18%, rgba(18, 168, 107, 0.18), transparent 24%),
+    radial-gradient(circle at 82% 72%, rgba(37, 99, 235, 0.16), transparent 28%);
+  background-size: 34px 34px, 34px 34px, 100% 100%, 100% 100%;
+}
+
+.road-horizontal,
+.road-vertical,
+.road-diagonal {
+  position: absolute;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: inset 0 0 0 1px rgba(23, 33, 29, 0.05);
+}
+
+.road-horizontal {
+  height: 18px;
+  left: -10%;
+  right: -10%;
+}
+
+.road-vertical {
+  width: 18px;
+  top: -8%;
+  bottom: -8%;
+}
+
+.road-diagonal {
+  height: 16px;
+  left: -20%;
+  right: -20%;
+  transform: rotate(-27deg);
+}
+
+.qr-cell:nth-child(3n),
+.qr-cell:nth-child(5n),
+.qr-cell:nth-child(11n),
+.qr-cell:nth-child(17n) {
+  background: #17211d;
+}
