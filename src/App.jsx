@@ -1105,7 +1105,7 @@ function BottomNav({ active, onNavigate }) {
     { screen: 'map', icon: MapPin, label: 'Map' },
     { screen: 'progress', icon: Timer, label: 'Charge' },
     { screen: 'rewards', icon: Gift, label: 'Rewards' },
-    { screen: 'service', icon: Wrench, label: 'Service' },
+    { screen: 'report', icon: MessageSquareWarning, label: 'Report' },
   ];
 
   return (
