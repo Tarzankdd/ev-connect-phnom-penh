@@ -1,7 +1,9 @@
 import {
+  Activity,
   BatteryCharging,
   BatteryMedium,
   Bell,
+  Bike,
   Bluetooth,
   Bolt,
   CalendarClock,
@@ -27,6 +29,7 @@ import {
   ShieldCheck,
   Smartphone,
   Star,
+  Store,
   Timer,
   Trophy,
   WalletCards,
@@ -46,7 +49,7 @@ const stations = [
     chargers: 6,
     wait: '0-5 min',
     price: '$0.24',
-    swapPrice: '$3.50',
+    swapPrice: '$0.80',
     swapBatteries: 12,
     swapTime: '3 min',
     swap: true,
@@ -80,7 +83,7 @@ const stations = [
     chargers: 4,
     wait: '8 min',
     price: '$0.19',
-    swapPrice: '$3.00',
+    swapPrice: '$0.60',
     swapBatteries: 18,
     swapTime: '2 min',
     swap: true,
@@ -109,6 +112,35 @@ const stations = [
 const filters = ['Fast Charge', 'Battery Swap', 'Cheapest', 'Nearest'];
 const timeSlots = ['09:30', '10:00', '10:30', '11:00'];
 const chargeTypes = ['Normal', 'Fast', 'Battery Swap'];
+const servicePartners = [
+  {
+    id: 1,
+    name: 'PP E-Bike Care',
+    type: 'Repair shop',
+    distance: '0.9 km',
+    service: 'Brake, controller, tire, wiring',
+    price: 'from $2',
+    icon: Wrench,
+  },
+  {
+    id: 2,
+    name: 'Green Moto Electric',
+    type: 'Electric bike shop',
+    distance: '1.7 km',
+    service: 'New bikes, batteries, helmets',
+    price: '0% test ride',
+    icon: Store,
+  },
+  {
+    id: 3,
+    name: 'Toul Tom Poung EV Service',
+    type: 'Repair + parts',
+    distance: '2.4 km',
+    service: 'Battery check, motor diagnosis',
+    price: 'from $3',
+    icon: Bike,
+  },
+];
 const paymentMethods = [
   {
     id: 'aba',
@@ -211,6 +243,7 @@ function App() {
       />
     ),
     rewards: <RewardsScreen onBack={() => navigate('home')} />,
+    service: <ServiceScreen onBack={() => navigate('home')} />,
     report: (
       <CommunityReportScreen
         sent={reportSent}
@@ -337,6 +370,13 @@ function HomeScreen({ station, onNavigate, onStation }) {
               <MiniStat icon={BatteryMedium} label="Battery ID" value="KH-22A" />
               <MiniStat icon={RefreshCw} label="Sync" value="12 sec" />
             </div>
+            <button
+              onClick={() => onNavigate('service')}
+              className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-ink py-3 text-xs font-extrabold text-white transition active:scale-[0.98]"
+            >
+              Bike health and service shops
+              <Activity size={16} />
+            </button>
           </div>
         </div>
       </section>
@@ -689,6 +729,94 @@ function RewardsScreen({ onBack }) {
   );
 }
 
+function ServiceScreen({ onBack }) {
+  const healthItems = [
+    { label: 'Battery health', value: '91%', status: 'Good' },
+    { label: 'Motor temp', value: '38°C', status: 'Normal' },
+    { label: 'Controller', value: 'OK', status: 'Synced' },
+    { label: 'Brake sensor', value: 'Check', status: 'Service soon' },
+  ];
+
+  return (
+    <ScreenPad>
+      <TopBar title="Bike health" onBack={onBack} />
+
+      <section className="mt-5 rounded-[30px] bg-ink p-5 text-white shadow-soft">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-sm text-white/65">Connected bike diagnosis</p>
+            <h1 className="mt-2 text-4xl font-black">Healthy</h1>
+            <p className="mt-2 text-sm leading-6 text-white/70">
+              EV Connect reads BMS and controller data to suggest repair shops before a small issue becomes expensive.
+            </p>
+          </div>
+          <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-leaf">
+            <Activity size={34} />
+          </div>
+        </div>
+
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          {healthItems.map((item) => (
+            <div key={item.label} className="rounded-2xl bg-white/10 p-3">
+              <p className="text-xs text-white/58">{item.label}</p>
+              <p className="mt-1 text-lg font-black">{item.value}</p>
+              <p className="mt-1 text-[11px] font-bold text-leaf">{item.status}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-5 rounded-[28px] bg-mint p-5 shadow-sm">
+        <div className="flex gap-3">
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-leaf text-white">
+            <Wrench size={24} />
+          </div>
+          <div>
+            <h2 className="text-lg font-black">Recommended fix</h2>
+            <p className="mt-1 text-sm leading-6 text-slate-600">
+              Brake sensor response is slower than usual. Book a nearby repair shop for a quick inspection.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="mt-5">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-black">Repair and e-bike shops</h2>
+          <span className="rounded-full bg-white px-3 py-2 text-xs font-extrabold text-leaf shadow-sm">Nearby</span>
+        </div>
+        <div className="mt-3 space-y-3 pb-20">
+          {servicePartners.map((shop) => (
+            <article key={shop.id} className="rounded-[26px] bg-white p-4 shadow-sm">
+              <div className="flex items-start gap-3">
+                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-mint text-leaf">
+                  <shop.icon size={24} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <p className="text-sm font-black">{shop.name}</p>
+                      <p className="mt-1 text-xs font-bold text-leaf">{shop.type}</p>
+                    </div>
+                    <p className="shrink-0 text-xs font-extrabold text-slate-500">{shop.distance}</p>
+                  </div>
+                  <p className="mt-3 text-xs leading-5 text-slate-500">{shop.service}</p>
+                  <div className="mt-3 flex items-center justify-between gap-3">
+                    <span className="rounded-full bg-limewash px-3 py-2 text-xs font-extrabold text-ink">{shop.price}</span>
+                    <button className="rounded-full bg-ink px-4 py-2 text-xs font-extrabold text-white">
+                      Book
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    </ScreenPad>
+  );
+}
+
 function CommunityReportScreen({ sent, onSent, onBack }) {
   const [rating, setRating] = useState(4);
 
@@ -915,8 +1043,8 @@ function MockQr() {
 function getReservationEstimate(station, chargeType) {
   if (chargeType === 'Battery Swap') {
     const swapPrice = Number((station.swapPrice ?? '$0').replace('$', ''));
-    const deposit = 2.5;
-    const fee = 0.25;
+    const deposit = 0.2;
+    const fee = 0.05;
     const total = swapPrice + fee;
 
     return {
@@ -939,8 +1067,8 @@ function getReservationEstimate(station, chargeType) {
   };
   const kwh = kwhByType[chargeType] ?? 18;
   const subtotal = pricePerKwh * kwh;
-  const deposit = 1.5;
-  const fee = 0.25;
+  const deposit = 0.5;
+  const fee = 0.1;
   const total = subtotal + fee;
 
   return {
@@ -977,7 +1105,7 @@ function BottomNav({ active, onNavigate }) {
     { screen: 'map', icon: MapPin, label: 'Map' },
     { screen: 'progress', icon: Timer, label: 'Charge' },
     { screen: 'rewards', icon: Gift, label: 'Rewards' },
-    { screen: 'report', icon: MessageSquareWarning, label: 'Report' },
+    { screen: 'service', icon: Wrench, label: 'Service' },
   ];
 
   return (
